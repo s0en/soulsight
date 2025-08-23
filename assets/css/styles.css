@@ -1,0 +1,256 @@
+/*
+ * SoulSight website styles
+ *
+ * The design draws inspiration from immersive sci‑fi websites like Mars Rejects,
+ * featuring a dark backdrop, vibrant accent colours and a simple side navigation.
+ * The layout is responsive and easy for non‑technical users to maintain.
+ */
+
+/* Reset some base styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Poppins', Arial, sans-serif;
+  /* A warmer dark background and off‑white text to harmonise with Kai's cosy scene */
+  background-color: #120d09;
+  color: #fdfaf6;
+  line-height: 1.6;
+}
+
+/* Side navigation */
+.side-nav {
+  position: fixed;
+  top: 50%;
+  left: 1rem;
+  transform: translateY(-50%);
+  z-index: 1000;
+}
+
+.side-nav ul {
+  list-style: none;
+  padding: 0;
+}
+
+.side-nav li {
+  margin: 1rem 0;
+}
+
+.side-nav a {
+  display: block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  /* neutral warm grey for inactive nav dots */
+  background-color: #6d5f53;
+  transition: background-color 0.3s ease;
+  text-indent: -9999px; /* hide text for accessibility; labels used via aria-label */
+}
+
+.side-nav a:hover,
+.side-nav a.active {
+  /* warm amber accent colour for active nav dots */
+  background-color: #e8a657;
+}
+
+/* Sections */
+.section {
+  min-height: 100vh;
+  padding: 6rem 10%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+}
+
+/* Hero section */
+.hero {
+  /* swap out cosmic background for a warm, glowing backdrop */
+  background-image: url('../images/warm_bg.png');
+  background-size: cover;
+  background-position: center;
+  text-align: left;
+  color: #f5f7fa;
+}
+
+.hero-inner {
+  max-width: 600px;
+}
+
+.hero h1 {
+  font-size: 3rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.hero p {
+  font-size: 1.2rem;
+  color: #e7d7c6;
+}
+
+/* Section headings and intro text */
+.section h2 {
+  font-size: 2.4rem;
+  margin-bottom: 1rem;
+  color: #ffffff;
+}
+
+.section-intro {
+  max-width: 700px;
+  margin-bottom: 2rem;
+  color: #d9cab9;
+}
+
+/* Character grid */
+.character-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.character-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.character-card img {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  margin-bottom: 0.5rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.character-card span {
+  font-weight: 600;
+  color: #ffffff;
+}
+
+/* Timeline */
+.timeline {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.timeline-item {
+  /* subtle warm tint for timeline cards */
+  background: rgba(255, 224, 200, 0.05);
+  border-left: 4px solid #e8a657;
+  padding: 1rem 1.5rem;
+  border-radius: 6px;
+  backdrop-filter: blur(4px);
+}
+
+.timeline-item h3 {
+  font-size: 1.5rem;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+.timeline-item p {
+  color: #e2d3c1;
+  font-size: 1rem;
+}
+
+/* Journey phases */
+.phases {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 2rem;
+  margin-top: 2rem;
+  width: 100%;
+}
+
+.phase-card {
+  /* warm tinted card background */
+  background: rgba(255, 224, 200, 0.05);
+  padding: 1.5rem;
+  border-radius: 8px;
+  border-top: 4px solid #e8a657;
+  backdrop-filter: blur(4px);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.phase-card h3 {
+  font-size: 1.4rem;
+  margin-bottom: 0.5rem;
+  color: #ffffff;
+}
+
+.phase-card p {
+  color: #e2d3c1;
+  font-size: 0.95rem;
+}
+
+.phase-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* Call to action */
+.call-to-action {
+  margin-top: 3rem;
+  text-align: left;
+  max-width: 600px;
+}
+
+.call-to-action p {
+  margin-bottom: 1rem;
+  color: #e2d3c1;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 0.75rem 1.5rem;
+  border-radius: 30px;
+  background-color: #e8a657;
+  color: #2a1d15;
+  text-decoration: none;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+  background-color: #c08a47;
+}
+
+/* Footer */
+footer {
+  background-color: #0f0a07;
+  color: #8d7a69;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+footer p {
+  font-size: 0.9rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero h1 {
+    font-size: 2.2rem;
+  }
+  .section {
+    padding: 4rem 8%;
+  }
+  .side-nav {
+    left: 0.5rem;
+  }
+}
