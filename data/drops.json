@@ -1,0 +1,11 @@
+{
+  "drops": [
+    {
+      "title": "Teaser",
+      "slug": "teaser",
+      "date": "2025-08-24",
+      "cover": "/assets/images/warm_bg.png",
+      "excerpt": "First glimpse"
+    }
+  ]
+}

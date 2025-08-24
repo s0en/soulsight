@@ -1,0 +1,17 @@
+backend:
+  name: git-gateway
+  branch: main
+media_folder: 'soulsight_site/assets/uploads'
+public_folder: '/assets/uploads'
+collections:
+  - name: gallery
+    label: Weekly Drops
+    files:
+      - file: 'soulsight_site/data/drops.json'
+        name: drops
+        label: Drops
+        fields:
+          - {label: Title, name: title, widget: string}
+          - {label: Date, name: date, widget: datetime}
+          - {label: Cover, name: cover, widget: image}
+          - {label: Excerpt, name: excerpt, widget: text}
