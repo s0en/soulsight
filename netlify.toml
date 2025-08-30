@@ -1,3 +1,3 @@
 [build]
-  publish = "soulsight"
+  publish = "soulsight_site"
   command = ""  # no build step, static site
