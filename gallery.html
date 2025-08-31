@@ -7,7 +7,36 @@
   <link rel="stylesheet" href="assets/css/styles.css">
 </head>
 <body>
+  <nav>
+    <a href="index.html">Home</a>
+  </nav>
   <h1>Gallery</h1>
-  <p>Seeded drops displayed here.</p>
+  <div id="drops" class="gallery-grid"></div>
+
+  <script>
+    fetch('assets/drops.json')
+      .then(response => response.json())
+      .then(drops => {
+        const container = document.getElementById('drops');
+        drops.forEach(drop => {
+          const item = document.createElement('div');
+          item.className = 'drop';
+
+          const img = document.createElement('img');
+          img.src = drop.image;
+          img.alt = drop.title;
+
+          const caption = document.createElement('p');
+          caption.textContent = drop.title;
+
+          item.appendChild(img);
+          item.appendChild(caption);
+          container.appendChild(item);
+        });
+      })
+      .catch(err => {
+        console.error('Failed to load drops', err);
+      });
+  </script>
 </body>
 </html>

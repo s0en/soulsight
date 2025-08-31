@@ -139,6 +139,26 @@ body {
   color: #ffffff;
 }
 
+/* Gallery */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 2rem;
+  width: 100%;
+  margin-top: 2rem;
+}
+
+.drop {
+  text-align: center;
+}
+
+.drop img {
+  width: 100%;
+  height: auto;
+  border-radius: 8px;
+  margin-bottom: 0.5rem;
+}
+
 /* Timeline */
 .timeline {
   display: flex;
