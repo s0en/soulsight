@@ -23,6 +23,12 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20'
+          cache: npm
+
+      # Install your repo deps (MUST happen before any npx playwright)
+      - name: Install deps
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
 
       # --- Deploy an ephemeral preview of your repo root ---
       - name: Install Netlify CLI
@@ -40,8 +46,9 @@ jobs:
           echo "preview_url=$url" >> $GITHUB_OUTPUT
 
       # --- Playwright smoke test (screenshots + console errors) ---
-      - name: Install Playwright
-        run: npx playwright install --with-deps
+      # Installs browsers + Linux deps correctly
+      - name: Setup Playwright browsers
+        uses: microsoft/playwright-github-action@v1
 
       - name: Run Playwright smoke
         run: BASE_URL="${{ steps.deploy.outputs.preview_url }}" npx playwright test --reporter=html
