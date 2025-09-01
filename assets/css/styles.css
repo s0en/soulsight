@@ -73,28 +73,89 @@ body {
 
 /* Hero section */
 .hero {
-  /* swap out cosmic background for a warm, glowing backdrop */
-  background-image: url('../images/warm_bg.png');
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
+  background-image: url('../images/kai-sunflower-bg.png');
   background-size: cover;
   background-position: center;
-  text-align: left;
-  color: #f5f7fa;
+  background-repeat: no-repeat;
+  width: 100vw;
+  color: #4A4A4A;
 }
 
-.hero-inner {
-  max-width: 600px;
+.hero-content {
+  display: flex;
+  align-items: center;
+  width: 100vw;
+  height: 100vh;
 }
 
-.hero h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #ffffff;
+.hero-intro-panel {
+  background: #F7E0B3;
+  color: #4A4A4A;
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 2.5rem 2rem;
+  max-width: 480px;
+  margin-left: 4rem;
+  margin-right: 2vw;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
-.hero p {
-  font-size: 1.2rem;
-  color: #e7d7c6;
+.hero-intro-panel h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4A4A4A;
+}
+
+.hero-intro-panel .soulsight {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #E8A657;
+  line-height: 1.1;
+}
+
+.hero-intro-panel .welcome {
+  font-size: 2.0rem;
+  font-weight: 600;
+  color: #4A4A4A;
+}
+
+.hero-intro-panel hr {
+  border: none;
+  border-top: 2px solid #E8A657;
+  margin: 1rem 0;
+  width: 40%;
+}
+
+.hero-intro-panel p {
+  color: #4A4A4A;
+  font-size: 1.08rem;
+  margin-bottom: 0.7rem;
+}
+
+@media (max-width: 900px) {
+  .hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+  }
+  .hero-intro-panel {
+    max-width: 98vw;
+    width: 98vw;
+    margin: 1rem auto;
+    padding: 1.2rem 1rem;
+    margin-left: 2.2rem;
+  }
+  .hero-intro-panel .soulsight {
+    font-size: 2rem;
+  }
 }
 
 /* Section headings and intro text */

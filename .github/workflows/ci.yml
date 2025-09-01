@@ -10,7 +10,6 @@ jobs:
     permissions:
       contents: read
       pull-requests: write
-
     env:
       NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
       NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
@@ -22,9 +21,23 @@ jobs:
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
+          node-version: 20
+          cache: npm
 
-      # --- Deploy an ephemeral preview of your repo root ---
+      - name: Install project deps
+        run: |
+          if [ -f package-lock.json ]; then npm ci; else npm install; fi
+
+      # (Optional) cache browser downloads to speed up runs
+      - name: Cache Playwright browsers
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+          restore-keys: |
+            playwright-${{ runner.os }}-
+
+      # --- Deploy an ephemeral preview ---
       - name: Install Netlify CLI
         run: npm i -g netlify-cli
 
@@ -39,14 +52,14 @@ jobs:
             --json | jq -r '.deploy_url')
           echo "preview_url=$url" >> $GITHUB_OUTPUT
 
-      # --- Playwright smoke test (screenshots + console errors) ---
-      - name: Install Playwright
-        run: npx playwright install --with-deps
+      # --- Playwright setup + run (no deprecated action) ---
+      - name: Install Playwright browsers + system deps
+        run: npx --no-install playwright install --with-deps
 
       - name: Run Playwright smoke
-        run: BASE_URL="${{ steps.deploy.outputs.preview_url }}" npx playwright test --reporter=html
         env:
           BASE_URL: ${{ steps.deploy.outputs.preview_url }}
+        run: npx --no-install playwright test --reporter=html
 
       - name: Upload Playwright report & screenshots
         if: always()
@@ -57,7 +70,7 @@ jobs:
             playwright-report/**
             test-results/**
 
-      # --- Lighthouse budgets (performance/accessibility/seo/best-practices) ---
+      # --- Lighthouse ---
       - name: Install Lighthouse CI
         run: npm i -g @lhci/cli
 
@@ -76,12 +89,11 @@ jobs:
           name: lighthouse-report
           path: lhci/**
 
-      # --- Link checker (broken links) ---
-      - name: Install link checker
-        run: npm i -g lychee-link-checker
-
+      # --- Link checker ---
       - name: Link check preview
-        run: lychee --no-progress --verbose "${{ steps.deploy.outputs.preview_url }}" || true
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: --no-progress --verbose ${{ steps.deploy.outputs.preview_url }}
 
       - name: Upload link check log
         if: always()
@@ -90,7 +102,7 @@ jobs:
           name: link-check
           path: lychee*.*
 
-      # --- JSON sanity (if present) ---
+      # --- JSON sanity ---
       - name: JSON validation (syntax)
         run: |
           found=$(find . -name "*.json" -not -path "./node_modules/*" | wc -l)
@@ -99,23 +111,26 @@ jobs:
             find . -name "*.json" -not -path "./node_modules/*" -print0 | xargs -0 -I{} sh -c 'cat "{}" | jq . >/dev/null'
           fi
 
-      # --- Summarize in PR comment ---
+      # --- PR Comment ---  
       - name: Comment with summary
         if: always()
         uses: actions/github-script@v7
         with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
-            const preview = `${{ steps.deploy.outputs.preview_url }}`;
+            const preview = process.env.PREVIEW_URL || '(deploy failed: no URL)';
             const body = [
               `**Preview:** ${preview}`,
               `Playwright report + screenshots attached as artifacts.`,
               `Lighthouse report attached.`,
               `Link-check log attached.`
             ].join('\n');
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
+
+            await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
+              issue_number: context.issue.number,
               body
             });
-
+        env:
+          PREVIEW_URL: ${{ steps.deploy.outputs.preview_url }}
