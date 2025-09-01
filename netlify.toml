@@ -1,0 +1,11 @@
+[build]
+  # No build step for a pure static site
+  command = ""
+  # Publish the repo root (your index.html lives here)
+  publish = "."
+
+[context.production.environment]
+  NODE_VERSION = "20"
+
+[context.deploy-preview]
+  command = ""
