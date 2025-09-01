@@ -99,7 +99,7 @@ body {
   box-shadow: 0 4px 24px rgba(0,0,0,0.10);
   padding: 2.5rem 2rem;
   max-width: 480px;
-  margin-left: 0;
+  margin-left: 4rem;
   margin-right: 2vw;
   z-index: 2;
   display: flex;
@@ -151,6 +151,7 @@ body {
     width: 98vw;
     margin: 1rem auto;
     padding: 1.2rem 1rem;
+    margin-left: 2.2rem;
   }
   .hero-intro-panel .soulsight {
     font-size: 2rem;
