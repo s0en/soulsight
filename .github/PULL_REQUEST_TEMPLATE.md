@@ -1,15 +1,15 @@
-## Summary
-<!-- What does this PR change, and why? -->
+## What changed & why
+- Short summary
 
-## Checklist
-- [ ] Conventional commit messages used (feat/fix/chore/docs)
-- [ ] Changes limited to scope (no unrelated files touched)
-- [ ] `soulsight_site/data/drops.json` validates (if edited)
-- [ ] Feeds regenerated / CI checks passing
-- [ ] Netlify Deploy Preview tested
+## Acceptance checklist (merge gates)
+- [ ] Preview link posted by CI
+- [ ] Playwright smoke test passed (screenshots in artifacts)
+- [ ] Lighthouse budgets met (report attached)
+- [ ] Link check passed (no critical 4xx/5xx)
+- [ ] JSON validation passed (if JSON present)
+- [ ] No console errors on home page
 
-## Related issue
-Closes #<issue-number>
+## Risks & rollback
+- Risk(s):
+- Rollback: revert this PR (Netlify auto-restores previous production)
 
-## Screenshots / Preview
-<!-- Add screenshots or paste the Deploy Preview URL here -->

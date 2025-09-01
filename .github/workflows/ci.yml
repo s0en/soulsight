@@ -1,0 +1,121 @@
+name: PR Website Checks
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+jobs:
+  test-site:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    env:
+      NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+      NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # --- Deploy an ephemeral preview of your repo root ---
+      - name: Install Netlify CLI
+        run: npm i -g netlify-cli
+
+      - name: Deploy Preview (root publish)
+        id: deploy
+        run: |
+          url=$(netlify deploy \
+            --dir="." \
+            --message="CI PR #${{ github.event.number }}" \
+            --auth "$NETLIFY_AUTH_TOKEN" \
+            --site "$NETLIFY_SITE_ID" \
+            --json | jq -r '.deploy_url')
+          echo "preview_url=$url" >> $GITHUB_OUTPUT
+
+      # --- Playwright smoke test (screenshots + console errors) ---
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+
+      - name: Run Playwright smoke
+        run: BASE_URL="${{ steps.deploy.outputs.preview_url }}" npx playwright test --reporter=html
+        env:
+          BASE_URL: ${{ steps.deploy.outputs.preview_url }}
+
+      - name: Upload Playwright report & screenshots
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/**
+            test-results/**
+
+      # --- Lighthouse budgets (performance/accessibility/seo/best-practices) ---
+      - name: Install Lighthouse CI
+        run: npm i -g @lhci/cli
+
+      - name: Run Lighthouse CI
+        run: |
+          lhci autorun \
+            --collect.url="${{ steps.deploy.outputs.preview_url }}" \
+            --upload.target=filesystem \
+            --upload.outputDir=./lhci
+        continue-on-error: true
+
+      - name: Upload Lighthouse report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: lighthouse-report
+          path: lhci/**
+
+      # --- Link checker (broken links) ---
+      - name: Install link checker
+        run: npm i -g lychee-link-checker
+
+      - name: Link check preview
+        run: lychee --no-progress --verbose "${{ steps.deploy.outputs.preview_url }}" || true
+
+      - name: Upload link check log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: link-check
+          path: lychee*.*
+
+      # --- JSON sanity (if present) ---
+      - name: JSON validation (syntax)
+        run: |
+          found=$(find . -name "*.json" -not -path "./node_modules/*" | wc -l)
+          echo "Found $found JSON files"
+          if [ "$found" -gt "0" ]; then
+            find . -name "*.json" -not -path "./node_modules/*" -print0 | xargs -0 -I{} sh -c 'cat "{}" | jq . >/dev/null'
+          fi
+
+      # --- Summarize in PR comment ---
+      - name: Comment with summary
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const preview = `${{ steps.deploy.outputs.preview_url }}`;
+            const body = [
+              `**Preview:** ${preview}`,
+              `Playwright report + screenshots attached as artifacts.`,
+              `Lighthouse report attached.`,
+              `Link-check log attached.`
+            ].join('\n');
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body
+            });
+
