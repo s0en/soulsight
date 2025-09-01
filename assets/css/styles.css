@@ -103,6 +103,45 @@ body {
   color: #e7d7c6;
 }
 
+.hero-intro {
+  color: #fffbe8;
+  text-align: left;
+  max-width: 480px;
+  padding: 2.5rem 2rem 2rem 2.5rem;
+  margin-bottom: 2rem;
+  background: rgba(32, 24, 8, 0.55); /* subtle warm semi-transparent background */
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  position: relative;
+  z-index: 2;
+}
+.hero-intro h2 {
+  font-size: 2.2rem;
+  font-weight: 700;
+  margin-bottom: 1rem;
+  color: #fffbe8;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+}
+.hero-intro p {
+  font-size: 1.1rem;
+  margin-bottom: 0.7rem;
+  color: #fdf6e3;
+  text-shadow: 0 1px 4px rgba(0,0,0,0.13);
+}
+@media (max-width: 768px) {
+  .hero-intro {
+    max-width: 98vw;
+    padding: 1.2rem 1rem 1rem 1.2rem;
+    margin-bottom: 1.2rem;
+  }
+  .hero-intro h2 {
+    font-size: 1.3rem;
+  }
+  .hero-intro p {
+    font-size: 0.98rem;
+  }
+}
+
 /* Section headings and intro text */
 .section h2 {
   font-size: 2.4rem;
