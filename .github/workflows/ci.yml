@@ -90,11 +90,10 @@ jobs:
           path: lhci/**
 
       # --- Link checker ---
-      - name: Install link checker
-        run: npm i -g lychee-link-checker
-
       - name: Link check preview
-        run: lychee --no-progress --verbose "${{ steps.deploy.outputs.preview_url }}" || true
+        uses: lycheeverse/lychee-action@v1
+        with:
+          args: --no-progress --verbose ${{ steps.deploy.outputs.preview_url }}
 
       - name: Upload link check log
         if: always()

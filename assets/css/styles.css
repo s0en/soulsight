@@ -88,12 +88,13 @@ body {
 }
 
 .hero-inner {
-  max-width: 600px;
+  max-width: 100%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  margin-left: 4vw;
+  margin-left: 0;
 }
 
 .hero h1 {
@@ -109,12 +110,15 @@ body {
 }
 
 .hero-intro {
+  margin-left: 0;
+  margin-right: auto;
+  max-width: 480px;
+  width: 100%;
   color: #fffbe8;
   text-align: left;
-  max-width: 480px;
   padding: 2.5rem 2rem 2rem 2.5rem;
   margin-bottom: 2rem;
-  background: rgba(32, 24, 8, 0.55); /* subtle warm semi-transparent background */
+  background: rgba(32, 24, 8, 0.55);
   border-radius: 18px;
   box-shadow: 0 4px 24px rgba(0,0,0,0.10);
   position: relative;
@@ -136,6 +140,7 @@ body {
 @media (max-width: 768px) {
   .hero-intro {
     max-width: 98vw;
+    width: 98vw;
     padding: 1.2rem 1rem 1rem 1.2rem;
     margin-bottom: 1.2rem;
   }
