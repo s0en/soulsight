@@ -73,82 +73,87 @@ body {
 
 /* Hero section */
 .hero {
-  /* sunflower background, fully responsive */
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  min-height: 100vh;
   background-image: url('../images/kai-sunflower-bg.png');
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  min-height: 100vh;
   width: 100vw;
+  color: #4A4A4A;
+}
+
+.hero-content {
   display: flex;
   align-items: center;
-  justify-content: flex-start;
-  text-align: left;
-  color: #f5f7fa;
+  width: 100vw;
+  height: 100vh;
 }
 
-.hero-inner {
-  max-width: 100%;
-  width: 100%;
+.hero-intro-panel {
+  background: #F7E0B3;
+  color: #4A4A4A;
+  border-radius: 24px;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
+  padding: 2.5rem 2rem;
+  max-width: 480px;
+  margin-left: 0;
+  margin-right: 2vw;
+  z-index: 2;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
-  justify-content: flex-start;
-  margin-left: 0;
+  justify-content: center;
 }
 
-.hero h1 {
-  font-size: 3rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #ffffff;
+.hero-intro-panel h2 {
+  margin-bottom: 0.5rem;
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: #4A4A4A;
 }
 
-.hero p {
-  font-size: 1.2rem;
-  color: #e7d7c6;
+.hero-intro-panel .soulsight {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #E8A657;
+  line-height: 1.1;
 }
 
-.hero-intro {
-  margin-left: 0;
-  margin-right: auto;
-  max-width: 480px;
-  width: 100%;
-  color: #fffbe8;
-  text-align: left;
-  padding: 2.5rem 2rem 2rem 2.5rem;
-  margin-bottom: 2rem;
-  background: rgba(32, 24, 8, 0.55);
-  border-radius: 18px;
-  box-shadow: 0 4px 24px rgba(0,0,0,0.10);
-  position: relative;
-  z-index: 2;
+.hero-intro-panel .welcome {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #4A4A4A;
 }
-.hero-intro h2 {
-  font-size: 2.2rem;
-  font-weight: 700;
-  margin-bottom: 1rem;
-  color: #fffbe8;
-  text-shadow: 0 2px 8px rgba(0,0,0,0.18);
+
+.hero-intro-panel hr {
+  border: none;
+  border-top: 2px solid #E8A657;
+  margin: 1rem 0;
+  width: 40%;
 }
-.hero-intro p {
-  font-size: 1.1rem;
+
+.hero-intro-panel p {
+  color: #4A4A4A;
+  font-size: 1.08rem;
   margin-bottom: 0.7rem;
-  color: #fdf6e3;
-  text-shadow: 0 1px 4px rgba(0,0,0,0.13);
 }
-@media (max-width: 768px) {
-  .hero-intro {
+
+@media (max-width: 900px) {
+  .hero-content {
+    flex-direction: column;
+    align-items: flex-start;
+    height: auto;
+  }
+  .hero-intro-panel {
     max-width: 98vw;
     width: 98vw;
-    padding: 1.2rem 1rem 1rem 1.2rem;
-    margin-bottom: 1.2rem;
+    margin: 1rem auto;
+    padding: 1.2rem 1rem;
   }
-  .hero-intro h2 {
-    font-size: 1.3rem;
-  }
-  .hero-intro p {
-    font-size: 0.98rem;
+  .hero-intro-panel .soulsight {
+    font-size: 2rem;
   }
 }
 
